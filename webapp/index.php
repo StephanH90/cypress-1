@@ -50,8 +50,7 @@
 
 <script>
 const onSquareClick = function (event) {
-  console.log("🦠 event:", event)
-  console.log("clicked target is:", event.target)
+  selectSquare(event.target)  
   // call the selectSquare function here
 }
 
@@ -60,6 +59,12 @@ const selectSquare = function (clickedSquare) {
   // 1. mark a square as clicked (if its not selected yet!)
   // 2. display a character inside (X or O depending on whos turn it is)
   // 3. detect if somebody has won or if the game is over with no winner
+  clickedSquare.innerText = currentPlayer
+  setNextPlayer();
+}
+
+const setNextPlayer = function () {
+  currentPlayer = currentPlayer === 'X' ? 'O' : 'X'
 }
 
 const restartGame = function () {
