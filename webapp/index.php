@@ -50,6 +50,12 @@
 
 <script>
 const onSquareClick = function (event) {
+  const clickedSquare = event.target;
+  if (clickedSquare.innerText !== '') {
+    alert('Please select an empty square')
+    return
+  }
+  
   selectSquare(event.target)  
   // call the selectSquare function here
 }

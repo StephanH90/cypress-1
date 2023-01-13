@@ -13,7 +13,11 @@ describe('tic tac toe game', () => {
     cy.get('#r1-c3').click()
     cy.get('#r1-c3').should('contain.text', 'X')
   })
-  it('shows an error message when clicking an already selected square')
+  it.only('shows an error message when clicking an already selected square', () => {
+    cy.get('#r1-c1').click()
+    cy.get('#r1-c1').click()
+    cy.document().should('contain.text', 'Please select an empty square')
+  })
   it('detects if somebody has won')
   it('restarts the game if the restart button is clicked')
 })
