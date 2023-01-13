@@ -1,63 +1,89 @@
 <?php $page_title = "Home ★ Productive"; ?>
-<?php require "view/blocks/page_start.php"; ?>
-<h1>Welcome to Productive!</h1>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title><?php echo $page_title ?? "Untitled Page"; ?></title>
 
-<h2>Our most popular products</h2>
+		<link rel="stylesheet" type="text/css" href="view/stylesheets/style.css">
 
-<!-- Plain JS implementation -->
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Stock</th>
-    </tr>
-  </thead>
-  <tbody id="products-table">
-  </tbody>
-</table>
+		<script src="controller/requests.js"></script>
+
+		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <style>
+      #board {
+        width: 600px;
+        height: 600px;
+      }
+      #board div {
+        width: 190px;
+        height: 190px;
+        border: 1px solid black;
+        display: inline-block;
+        float: left;
+        font-size: 180px;
+        text-align: center;
+      }
+    </style>
+	</head>
+<body>
+<div class="content-container">
+<div class="content">
+        
+<h1>Welcome to tictactoe</h1>
+
+<div id="board">
+  <div id="r1-c1"></div>
+  <div id="r1-c2"></div>
+  <div id="r1-c3"></div>
+  <div id="r2-c1"></div>
+  <div id="r2-c2"></div>
+  <div id="r2-c3"></div>
+  <div id="r3-c1"></div>
+  <div id="r3-c2"></div>
+  <div id="r3-c3"></div>
+</div>
+
+<button id="restart">Restart game</button>
 
 <script>
-const updateProductTable = async function (table, productsToInsert) {
-  const columns = ['name', 'price', 'stock'];
-
-  // Insert the table rows for the found products
-  const newTableRows = productsToInsert.map((product) => {
-    let thing = document.createElement('tr');
-
-    const tds = [];
-
-    for (let i = 0; i < columns.length; i++) {
-      let column = columns[i];
-
-      let td = document.createElement('td');
-      if(column == 'stock') {
-        if (product[column] <= 3) {
-          td.style.color = 'red'
-        } else {
-          td.style.color = 'black';
-        }
-      }
-      td.innerText = product[column]; // dunno lol
-      thing.appendChild(td);
-    }
-
-    return thing
-  })
-
-  table.replaceChildren(...newTableRows)
+const onSquareClick = function (event) {
+  console.log("🦠 event:", event)
+  console.log("clicked target is:", event.target)
+  // call the selectSquare function here
 }
 
-const init = async function () { // an async wrapper function which allows me to use await instead of .then()
-  const result1 = await fetch('API/V1/popular-products')
-  const products = await result1.json()
-
-  console.log(products)
-
-  updateProductTable(document.querySelector('#products-table'), products);
+const selectSquare = function (clickedSquare) {
+  // write the logic to:
+  // 1. mark a square as clicked (if its not selected yet!)
+  // 2. display a character inside (X or O depending on whos turn it is)
+  // 3. detect if somebody has won or if the game is over with no winner
 }
 
-init();
+const restartGame = function () {
+  // write logic to reset the state so a new game can be played
+}
+
+let currentPlayer = 'X'; // state which tracks whos turn it currently is
+
+const board = {
+  "r1-c1": null,
+  "r1-c2": null,
+  "r1-c3": null,
+  "r2-c1": null,
+  "r2-c2": null,
+  "r2-c3": null,
+  "r3-c1": null,
+  "r3-c2": null,
+  "r3-c3": null,
+}
+
+document.querySelectorAll('#board div').forEach((element) => {
+  element.addEventListener('click', onSquareClick)
+})
+
+document.querySelector('#restart').addEventListener('click', restartGame)
 </script>
 
-<?php require "view/blocks/page_end.php"; ?>
